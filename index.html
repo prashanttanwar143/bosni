@@ -1,0 +1,1256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bsoni Jewellers — Royal Rajasthani Elegance</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            maroon: { 50:'#fce8ef', 100:'#f7c3d4', 200:'#ef8ba9', 300:'#e6537e', 400:'#d4275b', 500:'#b80e42', 600:'#980836', 700:'#7a0a2e', 800:'#6B0F1A', 900:'#4a0818', 950:'#2d0310' },
+            royal: { 50:'#e8eaf6', 100:'#c5cae9', 200:'#9fa8da', 300:'#7986cb', 400:'#5c6bc0', 500:'#3f51b5', 600:'#1A237E', 700:'#1B3A5C', 800:'#0d1b3e', 900:'#070e20' },
+            emerald: { 50:'#e0f2f1', 100:'#b2dfdb', 200:'#80cbc4', 300:'#4db6ac', 400:'#26a69a', 500:'#009688', 600:'#00796b', 700:'#00695c', 800:'#045D56', 900:'#004D40' },
+            gold: { 50:'#FFF8E7', 100:'#FDF0C8', 200:'#F5E1A0', 300:'#EBCB6E', 400:'#D4AF37', 500:'#C9A84C', 600:'#B8860B', 700:'#996515', 800:'#7D4E00', 900:'#5C3600' },
+            cream: { 50:'#FFFDF7', 100:'#FFF8E7', 200:'#FDF5E6', 300:'#F5E6CC' },
+          },
+          fontFamily: {
+            cinzel: ['Cinzel', 'serif'],
+            inter: ['Inter', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600;700;800;900&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body { font-family: 'Inter', sans-serif; overflow-x: hidden; }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 8px; }
+    ::-webkit-scrollbar-track { background: #1a1a2e; }
+    ::-webkit-scrollbar-thumb { background: linear-gradient(180deg, #D4AF37, #6B0F1A); border-radius: 10px; }
+
+    /* Gold Shimmer Animation */
+    @keyframes goldShimmer {
+      0% { background-position: -200% center; }
+      100% { background-position: 200% center; }
+    }
+    .gold-shimmer {
+      background: linear-gradient(90deg, #D4AF37 0%, #F5E1A0 25%, #D4AF37 50%, #F5E1A0 75%, #D4AF37 100%);
+      background-size: 200% auto;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: goldShimmer 4s linear infinite;
+    }
+
+    /* Fade In Up */
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(40px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .animate-fade-in-up { animation: fadeInUp 0.8s ease-out forwards; }
+    .delay-100 { animation-delay: 0.1s; }
+    .delay-200 { animation-delay: 0.2s; }
+    .delay-300 { animation-delay: 0.3s; }
+    .delay-400 { animation-delay: 0.4s; }
+    .delay-500 { animation-delay: 0.5s; }
+
+    /* Fade In */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+    .animate-fade-in { animation: fadeIn 1s ease-out forwards; }
+
+    /* Scale In */
+    @keyframes scaleIn {
+      from { opacity: 0; transform: scale(0.9); }
+      to { opacity: 1; transform: scale(1); }
+    }
+
+    /* Floating Animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
+    }
+    .animate-float { animation: float 3s ease-in-out infinite; }
+
+    /* Pulse Gold */
+    @keyframes pulseGold {
+      0%, 100% { box-shadow: 0 0 0 0 rgba(212,175,55,0.5); }
+      50% { box-shadow: 0 0 20px 10px rgba(212,175,55,0.2); }
+    }
+    .pulse-gold { animation: pulseGold 2s infinite; }
+
+    /* Ornamental Divider */
+    .ornament-divider {
+      display: flex; align-items: center; justify-content: center; gap: 12px;
+    }
+    .ornament-divider::before, .ornament-divider::after {
+      content: ''; height: 1px; width: 80px;
+      background: linear-gradient(90deg, transparent, #D4AF37, transparent);
+    }
+
+    .product-card { transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+    .product-card:hover { transform: translateY(-8px); }
+    .product-card:hover .product-image { transform: scale(1.08); }
+    .product-image { transition: transform 0.6s ease; }
+
+    /* Category Card */
+    .category-card:hover .category-image { transform: scale(1.12); }
+    .category-card:hover .category-overlay { background: rgba(107,15,26,0.55); }
+    .category-card.active .category-overlay { background: rgba(212,175,55,0.3); }
+    .category-card.active { border: 2px solid #D4AF37; }
+    .category-image { transition: transform 0.7s ease; }
+    .category-overlay { transition: background 0.5s ease; }
+
+    /* WhatsApp Button */
+    .whatsapp-btn {
+      background: linear-gradient(135deg, #25D366 0%, #128C7E 100%);
+      transition: all 0.3s ease;
+    }
+    .whatsapp-btn:hover {
+      transform: scale(1.05);
+      box-shadow: 0 8px 25px rgba(37,211,102,0.4);
+    }
+
+    /* Scroll reveal */
+    .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+    .reveal.active { opacity: 1; transform: translateY(0); }
+
+    /* Hero Parallax */
+    .hero-bg { transition: transform 0.1s linear; }
+
+    /* Nav active link */
+    .nav-link { position: relative; }
+    .nav-link::after {
+      content: ''; position: absolute; bottom: -4px; left: 0; width: 0; height: 2px;
+      background: #D4AF37; transition: width 0.3s ease;
+    }
+    .nav-link:hover::after { width: 100%; }
+
+    /* Mandala Pattern Background */
+    .mandala-bg {
+      background-image: radial-gradient(circle at 50% 50%, rgba(212,175,55,0.06) 0%, transparent 50%);
+    }
+
+    /* Testimonial Card */
+    .testimonial-card { transition: all 0.3s ease; }
+    .testimonial-card:hover { transform: translateY(-5px); box-shadow: 0 20px 40px rgba(0,0,0,0.15); }
+
+    /* Instagram Hover */
+    .insta-card:hover .insta-overlay { opacity: 1; }
+    .insta-overlay { opacity: 0; transition: opacity 0.4s ease; }
+
+    /* Mobile menu */
+    .mobile-menu { transform: translateX(100%); transition: transform 0.4s cubic-bezier(0.77, 0, 0.175, 1); }
+    .mobile-menu.open { transform: translateX(0); }
+
+    /* Countdown Styling */
+    .countdown-box {
+      background: linear-gradient(135deg, rgba(107,15,26,0.9), rgba(26,35,126,0.9));
+      backdrop-filter: blur(10px);
+    }
+
+    /* Newsletter input */
+    .newsletter-input:focus { box-shadow: 0 0 0 3px rgba(212,175,55,0.3); }
+
+    /* Carousel */
+    .carousel-track { transition: transform 0.5s ease-in-out; }
+
+    /* Decorative Border */
+    .royal-border {
+      border-image: linear-gradient(135deg, #D4AF37, #6B0F1A, #D4AF37) 1;
+    }
+  </style>
+</head>
+<body class="bg-cream-50 text-gray-800">
+
+  <!-- ============ NAVBAR ============ -->
+  <nav id="navbar" class="fixed top-0 left-0 w-full z-50 transition-all duration-500">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 md:h-20">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-2 group">
+          <div class="w-9 h-9 md:w-11 md:h-11 rounded-full border-2 border-gold-400 flex items-center justify-center group-hover:bg-gold-400 transition-all duration-300">
+            <span class="font-cinzel text-gold-400 text-lg md:text-xl font-bold group-hover:text-white transition-colors">B</span>
+          </div>
+          <div class="hidden sm:block">
+            <span class="font-cinzel text-gold-400 text-lg md:text-xl font-bold tracking-wider">Bsoni</span>
+            <span class="block text-[9px] md:text-[10px] tracking-[0.3em] text-gold-300 uppercase -mt-1">Jewellers</span>
+          </div>
+        </a>
+
+        <!-- Desktop Nav Links -->
+        <div class="hidden lg:flex items-center gap-8">
+          <a href="#home" class="nav-link font-inter text-sm text-white/90 hover:text-gold-400 transition-colors">Home</a>
+          <a href="#categories" class="nav-link font-inter text-sm text-white/90 hover:text-gold-400 transition-colors">Collections</a>
+          <a href="#bestsellers" class="nav-link font-inter text-sm text-white/90 hover:text-gold-400 transition-colors">Best Sellers</a>
+          <a href="#offers" class="nav-link font-inter text-sm text-white/90 hover:text-gold-400 transition-colors">Offers</a>
+          <a href="#about" class="nav-link font-inter text-sm text-white/90 hover:text-gold-400 transition-colors">Our Heritage</a>
+          <a href="#testimonials" class="nav-link font-inter text-sm text-white/90 hover:text-gold-400 transition-colors">Testimonials</a>
+          <a href="#contact" class="nav-link font-inter text-sm text-white/90 hover:text-gold-400 transition-colors">Contact</a>
+        </div>
+
+        <!-- Right Actions -->
+        <div class="flex items-center gap-3">
+          <button class="hidden md:flex items-center gap-2 text-white/90 hover:text-gold-400 transition-colors" onclick="document.getElementById('searchModal').classList.remove('hidden')">
+            <i data-lucide="search" class="w-5 h-5"></i>
+          </button>
+          <button class="hidden md:flex items-center gap-2 text-white/90 hover:text-gold-400 transition-colors">
+            <i data-lucide="heart" class="w-5 h-5"></i>
+          </button>
+          <a href="https://wa.me/919521419359" target="_blank" class="hidden md:flex whatsapp-btn text-white px-4 py-2 rounded-full text-sm font-medium items-center gap-2">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            WhatsApp
+          </a>
+          <!-- Mobile Menu Button -->
+          <button id="menuBtn" class="lg:hidden text-white p-2" onclick="toggleMenu()">
+            <i data-lucide="menu" class="w-6 h-6"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Mobile Menu -->
+  <div id="mobileMenu" class="mobile-menu fixed inset-0 z-[60] bg-maroon-800/98 backdrop-blur-lg">
+    <div class="flex justify-between items-center p-5">
+      <div class="flex items-center gap-2">
+        <div class="w-10 h-10 rounded-full border-2 border-gold-400 flex items-center justify-center">
+          <span class="font-cinzel text-gold-400 text-xl font-bold">B</span>
+        </div>
+        <div>
+          <span class="font-cinzel text-gold-400 text-xl font-bold tracking-wider">Bsoni</span>
+          <span class="block text-[10px] tracking-[0.3em] text-gold-300 uppercase -mt-1">Jewellers</span>
+        </div>
+      </div>
+      <button onclick="toggleMenu()" class="text-white p-2">
+        <i data-lucide="x" class="w-7 h-7"></i>
+      </button>
+    </div>
+    <div class="flex flex-col items-center justify-center h-[70vh] gap-6">
+      <a href="#home" onclick="toggleMenu()" class="font-cinzel text-2xl text-white/90 hover:text-gold-400 transition-colors">Home</a>
+      <a href="#categories" onclick="toggleMenu()" class="font-cinzel text-2xl text-white/90 hover:text-gold-400 transition-colors">Collections</a>
+      <a href="#bestsellers" onclick="toggleMenu()" class="font-cinzel text-2xl text-white/90 hover:text-gold-400 transition-colors">Best Sellers</a>
+      <a href="#offers" onclick="toggleMenu()" class="font-cinzel text-2xl text-white/90 hover:text-gold-400 transition-colors">Offers</a>
+      <a href="#about" onclick="toggleMenu()" class="font-cinzel text-2xl text-white/90 hover:text-gold-400 transition-colors">Our Heritage</a>
+      <a href="#testimonials" onclick="toggleMenu()" class="font-cinzel text-2xl text-white/90 hover:text-gold-400 transition-colors">Testimonials</a>
+      <a href="#contact" onclick="toggleMenu()" class="font-cinzel text-2xl text-white/90 hover:text-gold-400 transition-colors">Contact</a>
+      <a href="https://wa.me/919876543210" target="_blank" class="whatsapp-btn text-white px-8 py-3 rounded-full text-lg font-medium flex items-center gap-3 mt-4">
+        <i data-lucide="message-circle" class="w-5 h-5"></i>
+        Buy on WhatsApp
+      </a>
+    </div>
+  </div>
+
+  <!-- Search Modal -->
+  <div id="searchModal" class="hidden fixed inset-0 z-[70] bg-black/80 backdrop-blur-sm flex items-start justify-center pt-24 px-4">
+    <div class="bg-white rounded-2xl p-6 w-full max-w-xl relative">
+      <button onclick="document.getElementById('searchModal').classList.add('hidden')" class="absolute top-4 right-4 text-gray-400 hover:text-gray-700">
+        <i data-lucide="x" class="w-5 h-5"></i>
+      </button>
+      <h3 class="font-cinzel text-xl text-maroon-800 mb-4">Search Our Collections</h3>
+      <div class="flex items-center border-2 border-gold-400 rounded-full overflow-hidden">
+        <input type="text" placeholder="Search necklaces, rings, bangles..." class="flex-1 px-5 py-3 outline-none font-inter text-sm">
+        <button class="bg-gold-400 text-white px-5 py-3 hover:bg-gold-600 transition-colors">
+          <i data-lucide="search" class="w-5 h-5"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============ HERO SECTION ============ -->
+  <section id="home" class="relative h-screen min-h-[700px] max-h-[1000px] overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0 hero-bg">
+      <img src="https://i.postimg.cc/LsTgJZw6/Cpvert-this-image-2k-202602160300.webp" alt="Hero" class="w-full h-full object-cover">
+      <!-- Overlay Gradient -->
+      <div class="absolute inset-0 bg-gradient-to-r from-maroon-900/90 via-maroon-800/70 to-royal-700/50"></div>
+      <div class="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent"></div>
+    </div>
+
+    <!-- Decorative Elements -->
+    <div class="absolute top-20 left-10 w-32 h-32 border border-gold-400/20 rounded-full animate-float hidden md:block"></div>
+    <div class="absolute bottom-40 right-10 w-48 h-48 border border-gold-400/10 rounded-full animate-float hidden md:block" style="animation-delay: 1.5s;"></div>
+
+    <!-- Content -->
+    <div class="relative z-10 h-full flex items-center">
+      <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
+        <div class="max-w-2xl">
+          <div class="animate-fade-in-up opacity-0">
+            <span class="inline-block font-inter text-gold-400 text-xs sm:text-sm tracking-[0.4em] uppercase mb-4 border border-gold-400/40 px-4 py-1.5 rounded-full">✦ Established in Rajasthan ✦</span>
+          </div>
+          <h1 class="font-cinzel text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-white leading-tight animate-fade-in-up opacity-0 delay-100">
+            Where <span class="gold-shimmer">Royalty</span> Meets<br>
+            <span class="text-gold-400">Timeless</span> Beauty
+          </h1>
+          <p class="font-inter text-white/80 text-base sm:text-lg mt-6 leading-relaxed animate-fade-in-up opacity-0 delay-200 max-w-lg">
+            Discover handcrafted Rajasthani jewelry that tells stories of heritage, passion, and unmatched craftsmanship — passed down through generations.
+          </p>
+          <div class="flex flex-wrap gap-4 mt-8 animate-fade-in-up opacity-0 delay-300">
+            <a href="#categories" class="group inline-flex items-center gap-2 bg-gold-400 hover:bg-gold-500 text-maroon-900 font-semibold px-7 py-3.5 rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-gold-400/30 text-sm sm:text-base">
+              Explore Collections
+              <i data-lucide="arrow-right" class="w-4 h-4 group-hover:translate-x-1 transition-transform"></i>
+            </a>
+            <a href="https://wa.me/919876543210?text=Hi!%20I'm%20interested%20in%20your%20jewelry%20collection" target="_blank" class="inline-flex items-center gap-2 border-2 border-white/40 hover:border-gold-400 text-white hover:text-gold-400 font-semibold px-7 py-3.5 rounded-full transition-all duration-300 text-sm sm:text-base">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              Inquire on WhatsApp
+            </a>
+          </div>
+          <!-- Trust Badges -->
+          <div class="flex flex-wrap items-center gap-6 mt-12 animate-fade-in-up opacity-0 delay-400">
+            <div class="flex items-center gap-2 text-white/70">
+              <i data-lucide="shield-check" class="w-5 h-5 text-gold-400"></i>
+              <span class="font-inter text-xs sm:text-sm">BIS Hallmarked</span>
+            </div>
+            <div class="flex items-center gap-2 text-white/70">
+              <i data-lucide="gem" class="w-5 h-5 text-gold-400"></i>
+              <span class="font-inter text-xs sm:text-sm">Certified Diamonds</span>
+            </div>
+            <div class="flex items-center gap-2 text-white/70">
+              <i data-lucide="truck" class="w-5 h-5 text-gold-400"></i>
+              <span class="font-inter text-xs sm:text-sm">Insured Shipping</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Scroll Indicator -->
+    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 animate-fade-in opacity-0 delay-500">
+      <span class="font-inter text-white/50 text-xs tracking-widest uppercase">Scroll</span>
+      <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+        <div class="w-1.5 h-3 bg-gold-400 rounded-full mt-2 animate-bounce"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ SHOP BY CATEGORY ============ -->
+  <section id="categories" class="py-16 sm:py-20 md:py-28 bg-cream-50 mandala-bg relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section Header -->
+      <div class="text-center mb-12 md:mb-16 reveal">
+        <span class="font-inter text-gold-600 text-xs tracking-[0.4em] uppercase">Our Collections</span>
+        <h2 class="font-cinzel text-3xl sm:text-4xl md:text-5xl font-bold text-maroon-800 mt-3">Shop by Category</h2>
+        <div class="ornament-divider mt-4">
+          <span class="text-gold-400 text-xl">◆</span>
+        </div>
+        <p class="font-inter text-gray-500 mt-4 max-w-lg mx-auto text-sm sm:text-base">Each piece is a testament to the artistry and dedication of our master craftsmen from the heart of Rajasthan.</p>
+      </div>
+
+      <!-- Categories Grid -->
+      <div id="categoryTrack" class="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4 md:gap-6">
+        <!-- Necklaces -->
+        <div class="category-card group relative overflow-hidden rounded-2xl sm:rounded-3xl aspect-[3/4] cursor-pointer reveal" onclick="filterProducts('necklaces')">
+          <img src="http://static.photos/nature/640x360/12" alt="Necklaces" class="category-image w-full h-full object-cover">
+          <div class="category-overlay absolute inset-0 bg-gradient-to-t from-maroon-900/80 via-maroon-800/30 to-transparent flex flex-col justify-end p-4 sm:p-6">
+            <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+              <span class="text-gold-400 font-inter text-[10px] sm:text-xs tracking-widest uppercase">01</span>
+              <h3 class="font-cinzel text-lg sm:text-xl md:text-2xl text-white mt-1">Necklaces</h3>
+              <p class="font-inter text-white/60 text-xs sm:text-sm mt-1 hidden sm:block">Royal Rani Haars & More</p>
+              <span class="inline-flex items-center gap-1 text-gold-400 font-inter text-xs sm:text-sm mt-2 sm:mt-3 group-hover:gap-2 transition-all">
+                Explore <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Earrings -->
+        <div class="category-card group relative overflow-hidden rounded-2xl sm:rounded-3xl aspect-[3/4] cursor-pointer reveal" onclick="filterProducts('earrings')">
+          <img src="http://static.photos/nature/640x360/23" alt="Earrings" class="category-image w-full h-full object-cover">
+          <div class="category-overlay absolute inset-0 bg-gradient-to-t from-royal-700/80 via-royal-600/30 to-transparent flex flex-col justify-end p-4 sm:p-6">
+            <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+              <span class="text-gold-400 font-inter text-[10px] sm:text-xs tracking-widest uppercase">02</span>
+              <h3 class="font-cinzel text-lg sm:text-xl md:text-2xl text-white mt-1">Earrings</h3>
+              <p class="font-inter text-white/60 text-xs sm:text-sm mt-1 hidden sm:block">Jhumkas & Chandbalis</p>
+              <span class="inline-flex items-center gap-1 text-gold-400 font-inter text-xs sm:text-sm mt-2 sm:mt-3 group-hover:gap-2 transition-all">
+                Explore <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Rings -->
+        <div class="category-card group relative overflow-hidden rounded-2xl sm:rounded-3xl aspect-[3/4] cursor-pointer reveal" onclick="filterProducts('rings')">
+          <img src="http://static.photos/nature/640x360/34" alt="Rings" class="category-image w-full h-full object-cover">
+          <div class="category-overlay absolute inset-0 bg-gradient-to-t from-emerald-800/80 via-emerald-700/30 to-transparent flex flex-col justify-end p-4 sm:p-6">
+            <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+              <span class="text-gold-400 font-inter text-[10px] sm:text-xs tracking-widest uppercase">03</span>
+              <h3 class="font-cinzel text-lg sm:text-xl md:text-2xl text-white mt-1">Rings</h3>
+              <p class="font-inter text-white/60 text-xs sm:text-sm mt-1 hidden sm:block">Engagement & Statement</p>
+              <span class="inline-flex items-center gap-1 text-gold-400 font-inter text-xs sm:text-sm mt-2 sm:mt-3 group-hover:gap-2 transition-all">
+                Explore <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bangles -->
+        <div class="category-card group relative overflow-hidden rounded-2xl sm:rounded-3xl aspect-[3/4] cursor-pointer reveal" onclick="filterProducts('bangles')">
+          <img src="http://static.photos/nature/640x360/45" alt="Bangles" class="category-image w-full h-full object-cover">
+          <div class="category-overlay absolute inset-0 bg-gradient-to-t from-maroon-800/80 via-gold-800/20 to-transparent flex flex-col justify-end p-4 sm:p-6">
+            <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+              <span class="text-gold-400 font-inter text-[10px] sm:text-xs tracking-widest uppercase">04</span>
+              <h3 class="font-cinzel text-lg sm:text-xl md:text-2xl text-white mt-1">Bangles</h3>
+              <p class="font-inter text-white/60 text-xs sm:text-sm mt-1 hidden sm:block">Gold & Kundan Sets</p>
+              <span class="inline-flex items-center gap-1 text-gold-400 font-inter text-xs sm:text-sm mt-2 sm:mt-3 group-hover:gap-2 transition-all">
+                Explore <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FEATURED PRODUCTS / BEST SELLERS ============ -->
+  <section id="bestsellers" class="py-16 sm:py-20 md:py-28 bg-gradient-to-b from-maroon-900 via-maroon-800 to-maroon-900 relative overflow-hidden">
+    <!-- Decorative BG -->
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute top-10 left-10 w-72 h-72 rounded-full border border-gold-400"></div>
+      <div class="absolute bottom-10 right-10 w-96 h-96 rounded-full border border-gold-400"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <!-- Section Header -->
+      <div class="text-center mb-12 md:mb-16 reveal">
+        <span class="font-inter text-gold-400 text-xs tracking-[0.4em] uppercase">Most Loved</span>
+        <h2 class="font-cinzel text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-3">Best Sellers</h2>
+        <div class="ornament-divider mt-4">
+          <span class="text-gold-400 text-xl">◆</span>
+        </div>
+      </div>
+
+      <!-- Filter Controls -->
+      <div class="flex justify-between items-center mb-6">
+        <button onclick="showAllProducts()" class="bg-gold-400 hover:bg-gold-500 text-maroon-900 font-semibold px-6 py-2 rounded-full transition-all text-sm">Show All Products</button>
+        <div class="flex gap-3">
+          <button onclick="moveCarousel(-1)" class="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gold-400/40 text-gold-400 hover:bg-gold-400 hover:text-maroon-900 transition-all flex items-center justify-center">
+            <i data-lucide="chevron-left" class="w-5 h-5"></i>
+          </button>
+          <button onclick="moveCarousel(1)" class="w-10 h-10 md:w-12 md:h-12 rounded-full border border-gold-400/40 text-gold-400 hover:bg-gold-400 hover:text-maroon-900 transition-all flex items-center justify-center">
+            <i data-lucide="chevron-right" class="w-5 h-5"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Products Carousel -->
+      <div class="overflow-hidden">
+        <div id="carouselTrack" class="carousel-track flex gap-4 sm:gap-6">
+          <!-- Products will be loaded dynamically here -->
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ LIMITED-TIME OFFERS ============ -->
+  <section id="offers" class="relative py-16 sm:py-20 md:py-28 overflow-hidden">
+    <!-- Background Image -->
+    <div class="absolute inset-0">
+      <img src="http://static.photos/nature/1200x630/42" alt="Offers BG" class="w-full h-full object-cover">
+      <div class="absolute inset-0 bg-gradient-to-r from-maroon-900/95 via-royal-800/90 to-emerald-900/85"></div>
+    </div>
+
+    <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-8 md:gap-12 items-center">
+        <!-- Left Content -->
+        <div class="reveal">
+          <span class="font-inter text-gold-400 text-xs tracking-[0.4em] uppercase">✦ Limited Time Only ✦</span>
+          <h2 class="font-cinzel text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-4 leading-tight">
+            Wedding Season<br>
+            <span class="gold-shimmer">Grand Sale</span>
+          </h2>
+          <p class="font-inter text-white/70 mt-4 max-w-md text-sm sm:text-base">Celebrate the season of love with up to 25% off on bridal jewelry sets. Each piece crafted with devotion by our master artisans in bikaner.</p>
+
+          <!-- Countdown -->
+          <div class="flex gap-3 sm:gap-4 mt-8" id="countdown">
+            <div class="countdown-box rounded-xl p-3 sm:p-4 text-center min-w-[60px] sm:min-w-[72px]">
+              <span id="days" class="font-cinzel text-2xl sm:text-3xl font-bold text-gold-400">07</span>
+              <span class="block font-inter text-white/50 text-[10px] sm:text-xs mt-1 uppercase tracking-wider">Days</span>
+            </div>
+            <div class="countdown-box rounded-xl p-3 sm:p-4 text-center min-w-[60px] sm:min-w-[72px]">
+              <span id="hours" class="font-cinzel text-2xl sm:text-3xl font-bold text-gold-400">14</span>
+              <span class="block font-inter text-white/50 text-[10px] sm:text-xs mt-1 uppercase tracking-wider">Hours</span>
+            </div>
+            <div class="countdown-box rounded-xl p-3 sm:p-4 text-center min-w-[60px] sm:min-w-[72px]">
+              <span id="minutes" class="font-cinzel text-2xl sm:text-3xl font-bold text-gold-400">32</span>
+              <span class="block font-inter text-white/50 text-[10px] sm:text-xs mt-1 uppercase tracking-wider">Mins</span>
+            </div>
+            <div class="countdown-box rounded-xl p-3 sm:p-4 text-center min-w-[60px] sm:min-w-[72px]">
+              <span id="seconds" class="font-cinzel text-2xl sm:text-3xl font-bold text-gold-400">48</span>
+              <span class="block font-inter text-white/50 text-[10px] sm:text-xs mt-1 uppercase tracking-wider">Secs</span>
+            </div>
+          </div>
+
+          <!-- CTA -->
+          <div class="flex flex-wrap gap-4 mt-8">
+            <a href="#bestsellers" class="inline-flex items-center gap-2 bg-gold-400 hover:bg-gold-500 text-maroon-900 font-semibold px-6 py-3 rounded-full transition-all text-sm">
+              Shop the Sale
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </a>
+            <a href="https://wa.me/919876543210?text=Hi!%20I'm%20interested%20in%20the%20Wedding%20Season%20Sale" target="_blank" class="inline-flex items-center gap-2 border-2 border-white/30 hover:border-gold-400 text-white hover:text-gold-400 font-semibold px-6 py-3 rounded-full transition-all text-sm">
+              <i data-lucide="message-circle" class="w-4 h-4"></i>
+              Inquire Now
+            </a>
+          </div>
+        </div>
+
+        <!-- Right - Featured Offer Card -->
+        <div class="reveal relative">
+          <div class="relative bg-white/10 backdrop-blur-sm rounded-3xl p-5 sm:p-8 border border-gold-400/20">
+            <span class="absolute -top-4 left-6 bg-gold-400 text-maroon-900 font-cinzel font-bold text-lg px-5 py-1.5 rounded-full">25% OFF</span>
+            <div class="aspect-square rounded-2xl overflow-hidden mt-4">
+              <img src="http://static.photos/nature/640x360/150" alt="Bridal Set" class="w-full h-full object-cover hover:scale-105 transition-transform duration-700">
+            </div>
+            <h3 class="font-cinzel text-white text-xl sm:text-2xl font-bold mt-5">Royal Bridal Jewelry Set</h3>
+            <p class="font-inter text-white/60 text-sm mt-2">Complete bridal set — Necklace, Earrings, Maang Tikka, Bangles & Ring</p>
+            <div class="flex items-center gap-3 mt-4">
+              <span class="font-cinzel text-gold-400 text-2xl font-bold">₹4,50,000</span>
+              <span class="font-inter text-white/40 text-lg line-through">₹6,00,000</span>
+            </div>
+            <a href="https://wa.me/919876543210?text=Hi!%20I'm%20interested%20in%20the%20Royal%20Bridal%20Set%20(25%25%20off)" target="_blank" class="whatsapp-btn w-full text-white py-3.5 rounded-full text-base font-semibold flex items-center justify-center gap-2 mt-6">
+              <svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+              Buy on WhatsApp
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ ABOUT US ============ -->
+  <section id="about" class="py-16 sm:py-20 md:py-28 bg-cream-50 mandala-bg relative overflow-hidden">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid md:grid-cols-2 gap-10 md:gap-16 items-center">
+        <!-- Image Grid -->
+        <div class="reveal relative">
+          <div class="grid grid-cols-2 gap-3 sm:gap-4">
+            <div class="space-y-3 sm:space-y-4">
+              <div class="rounded-2xl overflow-hidden aspect-[3/4]">
+                <img src="http://static.photos/nature/320x240/61" alt="Craftsman" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700">
+              </div>
+              <div class="rounded-2xl overflow-hidden aspect-square">
+                <img src="http://static.photos/nature/320x240/62" alt="Workshop" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700">
+              </div>
+            </div>
+            <div class="space-y-3 sm:space-y-4 mt-8">
+              <div class="rounded-2xl overflow-hidden aspect-square">
+                <img src="http://static.photos/nature/320x240/63" alt="bikaner" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700">
+              </div>
+              <div class="rounded-2xl overflow-hidden aspect-[3/4]">
+                <img src="http://static.photos/nature/320x240/64" alt="Jewelry Detail" class="w-full h-full object-cover hover:scale-110 transition-transform duration-700">
+              </div>
+            </div>
+          </div>
+          <!-- Experience Badge -->
+          <div class="absolute -bottom-4 -right-4 sm:bottom-4 sm:right-4 bg-maroon-800 text-white rounded-2xl p-4 sm:p-5 shadow-2xl pulse-gold">
+            <span class="font-cinzel text-3xl sm:text-4xl font-bold text-gold-400 block">50+</span>
+            <span class="font-inter text-xs sm:text-sm text-white/70">Years of<br>Legacy</span>
+          </div>
+        </div>
+
+        <!-- Content -->
+        <div class="reveal">
+          <span class="font-inter text-gold-600 text-xs tracking-[0.4em] uppercase">Our Heritage</span>
+          <h2 class="font-cinzel text-3xl sm:text-4xl md:text-5xl font-bold text-maroon-800 mt-3 leading-tight">Rooted in the<br><span class="text-gold-600">Royalty of Rajasthan</span></h2>
+          <div class="w-20 h-0.5 bg-gradient-to-r from-gold-400 to-maroon-800 mt-5"></div>
+          <p class="font-inter text-gray-600 mt-6 text-sm sm:text-base leading-relaxed">Born in the vibrant streets of bikaner — the Pink City — Bsoni Jewellers carries forward a legacy that spans over five decades. Our family's journey began with a simple belief: that every piece of jewelry should carry the soul of its maker and the pride of its wearer.</p>
+          <p class="font-inter text-gray-600 mt-4 text-sm sm:text-base leading-relaxed">Inspired by the grandeur of Rajasthani palaces, the intricate meenakari of Mughal artisans, and the timeless kundan techniques passed through generations, each Bsoni creation is a tribute to India's most magnificent jewelry traditions.</p>
+
+          <!-- Features -->
+          <div class="grid grid-cols-2 gap-4 sm:gap-6 mt-8">
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gold-50 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="hand-metal" class="w-5 h-5 sm:w-6 sm:h-6 text-gold-600"></i>
+              </div>
+              <div>
+                <h4 class="font-cinzel text-maroon-800 text-sm sm:text-base font-semibold">Handcrafted</h4>
+                <p class="font-inter text-gray-500 text-xs sm:text-sm mt-0.5">By master artisans</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gold-50 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="shield-check" class="w-5 h-5 sm:w-6 sm:h-6 text-gold-600"></i>
+              </div>
+              <div>
+                <h4 class="font-cinzel text-maroon-800 text-sm sm:text-base font-semibold">BIS Hallmarked</h4>
+                <p class="font-inter text-gray-500 text-xs sm:text-sm mt-0.5">Certified purity</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gold-50 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="gem" class="w-5 h-5 sm:w-6 sm:h-6 text-gold-600"></i>
+              </div>
+              <div>
+                <h4 class="font-cinzel text-maroon-800 text-sm sm:text-base font-semibold">Real Gemstones</h4>
+                <p class="font-inter text-gray-500 text-xs sm:text-sm mt-0.5">Ethically sourced</p>
+              </div>
+            </div>
+            <div class="flex items-start gap-3">
+              <div class="w-10 h-10 sm:w-12 sm:h-12 rounded-xl bg-gold-50 flex items-center justify-center flex-shrink-0">
+                <i data-lucide="heart-handshake" class="w-5 h-5 sm:w-6 sm:h-6 text-gold-600"></i>
+              </div>
+              <div>
+                <h4 class="font-cinzel text-maroon-800 text-sm sm:text-base font-semibold">Lifetime Care</h4>
+                <p class="font-inter text-gray-500 text-xs sm:text-sm mt-0.5">Free polishing & repair</p>
+              </div>
+            </div>
+          </div>
+
+          <a href="https://wa.me/919876543210?text=Hi!%20I'd%20like%20to%20know%20more%20about%20Bsoni%20Jewellers" target="_blank" class="inline-flex items-center gap-2 bg-maroon-800 hover:bg-maroon-700 text-white font-semibold px-6 py-3 rounded-full transition-all mt-8 text-sm sm:text-base">
+            <i data-lucide="message-circle" class="w-4 h-4"></i>
+            Get in Touch
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ TESTIMONIALS ============ -->
+  <section id="testimonials" class="py-16 sm:py-20 md:py-28 bg-gradient-to-b from-maroon-900 to-maroon-800 relative overflow-hidden">
+    <div class="absolute inset-0 opacity-5">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full border border-gold-400"></div>
+    </div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <!-- Section Header -->
+      <div class="text-center mb-12 md:mb-16 reveal">
+        <span class="font-inter text-gold-400 text-xs tracking-[0.4em] uppercase">What Our Clients Say</span>
+        <h2 class="font-cinzel text-3xl sm:text-4xl md:text-5xl font-bold text-white mt-3">Customer Love</h2>
+        <div class="ornament-divider mt-4">
+          <span class="text-gold-400 text-xl">◆</span>
+        </div>
+      </div>
+
+      <!-- Testimonials Grid -->
+      <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+        <!-- Testimonial 1 -->
+        <div class="testimonial-card bg-white/5 backdrop-blur-sm rounded-2xl p-5 sm:p-7 border border-white/10 reveal">
+          <div class="flex items-center gap-1 mb-4">
+            <i data-lucide="star" class="w-4 h-4 text-gold-400 fill-gold-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-gold-400 fill-gold-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-gold-400 fill-gold-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-gold-400 fill-gold-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-gold-400 fill-gold-400"></i>
+          </div>
+          <p class="font-inter text-white/80 text-sm sm:text-base leading-relaxed italic">"The bridal set I ordered was beyond my imagination. The kundan work was exquisite and every stone sparkled like a dream. Bsoni made my wedding day truly royal!"</p>
+          <div class="flex items-center gap-3 mt-5 pt-5 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-gold-400/20 flex items-center justify-center">
+              <span class="font-cinzel text-gold-400 font-bold">PR</span>
+            </div>
+            <div>
+              <h4 class="font-cinzel text-white text-sm font-semibold">kutta </h4>
+              <p class="font-inter text-white/50 text-xs">bikaner, Rajasthan</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 2 -->
+        <div class="testimonial-card bg-white/5 backdrop-blur-sm rounded-2xl p-5 sm:p-7 border border-white/10 reveal">
+          <div class="flex items-center gap-1 mb-4">
+            <i data-lucide="star" class="w-4 h-4 text-gold-400 fill-gold-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-gold-400 fill-gold-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-gold-400 fill-gold-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-gold-400 fill-gold-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-gold-400 fill-gold-400"></i>
+          </div>
+          <p class="font-inter text-white/80 text-sm sm:text-base leading-relaxed italic">"I was hesitant buying jewelry online, but the WhatsApp experience was so personal! The owner sent me videos and close-up photos. The jhumkas arrived perfectly."</p>
+          <div class="flex items-center gap-3 mt-5 pt-5 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-emerald-700/20 flex items-center justify-center">
+              <span class="font-cinzel text-emerald-400 font-bold">AS</span>
+            </div>
+            <div>
+              <h4 class="font-cinzel text-white text-sm font-semibold">bilii </h4>
+              <p class="font-inter text-white/50 text-xs">ai, Maharashtra</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Testimonial 3 -->
+        <div class="testimonial-card bg-white/5 backdrop-blur-sm rounded-2xl p-5 sm:p-7 border border-white/10 reveal sm:col-span-2 lg:col-span-1">
+          <div class="flex items-center gap-1 mb-4">
+            <i data-lucide="star" class="w-4 h-4 text-gold-400 fill-gold-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-gold-400 fill-gold-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-gold-400 fill-gold-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-gold-400 fill-gold-400"></i>
+            <i data-lucide="star" class="w-4 h-4 text-gold-400 fill-gold-400"></i>
+          </div>
+          <p class="font-inter text-white/80 text-sm sm:text-base leading-relaxed italic">"Generations of trust! My grandmother bought her wedding jewelry from Bsoni, and now I did too. The quality and warmth remain unchanged. Truly a heritage brand."</p>
+          <div class="flex items-center gap-3 mt-5 pt-5 border-t border-white/10">
+            <div class="w-10 h-10 rounded-full bg-royal-600/20 flex items-center justify-center">
+              <span class="font-cinzel text-royal-300 font-bold">MS</span>
+            </div>
+            <div>
+              <h4 class="font-cinzel text-white text-sm font-semibold"> magar-mach </h4>
+              <p class="font-inter text-white/50 text-xs">bikaner, Rajasthan</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ NEWSLETTER ============ -->
+  <section class="py-16 sm:py-20 md:py-24 bg-cream-50 relative overflow-hidden">
+    <div class="absolute inset-0 mandala-bg"></div>
+    <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center reveal">
+      <div class="bg-white rounded-3xl p-8 sm:p-12 md:p-16 shadow-xl border border-gold-200/50 relative overflow-hidden">
+        <!-- Decorative Corners -->
+        <div class="absolute top-0 left-0 w-20 h-20 border-t-2 border-l-2 border-gold-400/30 rounded-tl-3xl"></div>
+        <div class="absolute top-0 right-0 w-20 h-20 border-t-2 border-r-2 border-gold-400/30 rounded-tr-3xl"></div>
+        <div class="absolute bottom-0 left-0 w-20 h-20 border-b-2 border-l-2 border-gold-400/30 rounded-bl-3xl"></div>
+        <div class="absolute bottom-0 right-0 w-20 h-20 border-b-2 border-r-2 border-gold-400/30 rounded-br-3xl"></div>
+
+        <span class="font-inter text-gold-600 text-xs tracking-[0.4em] uppercase">✦ Stay Updated ✦</span>
+        <h2 class="font-cinzel text-2xl sm:text-3xl md:text-4xl font-bold text-maroon-800 mt-3">Join the Royal Circle</h2>
+        <p class="font-inter text-gray-500 mt-3 text-sm sm:text-base max-w-md mx-auto">Subscribe for exclusive collections, early access to sales, and stories from our bikaner workshop.</p>
+
+        <form id="newsletterForm" class="mt-8 flex flex-col sm:flex-row gap-3 max-w-lg mx-auto" onsubmit="handleNewsletter(event)">
+          <div class="flex-1 relative">
+            <i data-lucide="mail" class="w-5 h-5 text-gray-400 absolute left-4 top-1/2 -translate-y-1/2"></i>
+            <input type="email" placeholder="Your email address" required class="newsletter-input w-full pl-12 pr-4 py-3.5 rounded-full border-2 border-gray-200 focus:border-gold-400 outline-none font-inter text-sm transition-all">
+          </div>
+          <button type="submit" class="bg-maroon-800 hover:bg-maroon-700 text-white font-semibold px-7 py-3.5 rounded-full transition-all flex items-center justify-center gap-2 text-sm sm:text-base">
+            <i data-lucide="crown" class="w-4 h-4"></i>
+            Subscribe
+          </button>
+        </form>
+        <div id="newsletterMsg" class="mt-4 hidden">
+          <p class="font-inter text-emerald-700 text-sm flex items-center justify-center gap-2">
+            <i data-lucide="check-circle" class="w-4 h-4"></i>
+            Welcome to the Royal Circle! ✨
+          </p>
+        </div>
+        <p class="font-inter text-gray-400 text-xs mt-4">No spam, ever. Unsubscribe anytime.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ INSTAGRAM / LOOKBOOK ============ -->
+  <section class="py-16 sm:py-20 md:py-28 bg-white relative">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <!-- Section Header -->
+      <div class="text-center mb-12 md:mb-16 reveal">
+        <span class="font-inter text-gold-600 text-xs tracking-[0.4em] uppercase">@bsonijewellers</span>
+        <h2 class="font-cinzel text-3xl sm:text-4xl md:text-5xl font-bold text-maroon-800 mt-3">Lookbook</h2>
+        <div class="ornament-divider mt-4">
+          <span class="text-gold-400 text-xl">◆</span>
+        </div>
+        <p class="font-inter text-gray-500 mt-4 max-w-md mx-auto text-sm sm:text-base">Follow us for daily inspiration, styling tips, and behind-the-scenes glimpses from our workshop.</p>
+      </div>
+
+      <!-- Instagram Grid -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-2 sm:gap-3">
+        <div class="insta-card relative aspect-square rounded-xl overflow-hidden cursor-pointer reveal">
+          <img src="http://static.photos/nature/200x200/1" alt="Instagram" class="w-full h-full object-cover">
+          <div class="insta-overlay absolute inset-0 bg-maroon-800/60 flex items-center justify-center">
+            <i data-lucide="instagram" class="w-6 h-6 text-white"></i>
+          </div>
+        </div>
+        <div class="insta-card relative aspect-square rounded-xl overflow-hidden cursor-pointer reveal">
+          <img src="http://static.photos/nature/200x200/2" alt="Instagram" class="w-full h-full object-cover">
+          <div class="insta-overlay absolute inset-0 bg-royal-700/60 flex items-center justify-center">
+            <i data-lucide="instagram" class="w-6 h-6 text-white"></i>
+          </div>
+        </div>
+        <div class="insta-card relative aspect-square rounded-xl overflow-hidden cursor-pointer reveal">
+          <img src="http://static.photos/nature/200x200/3" alt="Instagram" class="w-full h-full object-cover">
+          <div class="insta-overlay absolute inset-0 bg-emerald-800/60 flex items-center justify-center">
+            <i data-lucide="instagram" class="w-6 h-6 text-white"></i>
+          </div>
+        </div>
+        <div class="insta-card relative aspect-square rounded-xl overflow-hidden cursor-pointer reveal">
+          <img src="http://static.photos/nature/200x200/4" alt="Instagram" class="w-full h-full object-cover">
+          <div class="insta-overlay absolute inset-0 bg-maroon-800/60 flex items-center justify-center">
+            <i data-lucide="instagram" class="w-6 h-6 text-white"></i>
+          </div>
+        </div>
+        <div class="insta-card relative aspect-square rounded-xl overflow-hidden cursor-pointer reveal hidden sm:block">
+          <img src="http://static.photos/nature/200x200/5" alt="Instagram" class="w-full h-full object-cover">
+          <div class="insta-overlay absolute inset-0 bg-royal-700/60 flex items-center justify-center">
+            <i data-lucide="instagram" class="w-6 h-6 text-white"></i>
+          </div>
+        </div>
+        <div class="insta-card relative aspect-square rounded-xl overflow-hidden cursor-pointer reveal hidden lg:block">
+          <img src="http://static.photos/nature/200x200/6" alt="Instagram" class="w-full h-full object-cover">
+          <div class="insta-overlay absolute inset-0 bg-emerald-800/60 flex items-center justify-center">
+            <i data-lucide="instagram" class="w-6 h-6 text-white"></i>
+          </div>
+        </div>
+      </div>
+
+      <div class="text-center mt-8">
+        <a href="#" class="inline-flex items-center gap-2 border-2 border-maroon-800 text-maroon-800 hover:bg-maroon-800 hover:text-white font-semibold px-6 py-3 rounded-full transition-all text-sm">
+          <i data-lucide="instagram" class="w-4 h-4"></i>
+          Follow @bsonijewellers
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer id="contact" class="bg-maroon-900 pt-16 sm:pt-20 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-2 md:grid-cols-5 gap-8 sm:gap-10">
+        <!-- Brand Column -->
+        <div class="col-span-2 md:col-span-1">
+          <div class="flex items-center gap-2 mb-5">
+            <div class="w-11 h-11 rounded-full border-2 border-gold-400 flex items-center justify-center">
+              <span class="font-cinzel text-gold-400 text-xl font-bold">B</span>
+            </div>
+            <div>
+              <span class="font-cinzel text-gold-400 text-xl font-bold tracking-wider">Bsoni</span>
+              <span class="block text-[10px] tracking-[0.3em] text-gold-300 uppercase -mt-1">Jewellers</span>
+            </div>
+          </div>
+          <p class="font-inter text-white/60 text-sm leading-relaxed mb-5">Crafting royal jewelry since 1972. From the heart of bikaner to homes across the world.</p>
+          <!-- Social Icons -->
+          <div class="flex items-center gap-3">
+            <a href="https://www.instagram.com/bsoni_sutarla_/" target="_blank" class="w-9 h-9 rounded-full bg-white/10 hover:bg-gold-400 flex items-center justify-center text-white hover:text-maroon-900 transition-all">
+              <i data-lucide="instagram" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-gold-400 flex items-center justify-center text-white hover:text-maroon-900 transition-all">
+              <i data-lucide="facebook" class="w-4 h-4"></i>
+            </a>
+            <a href="#" class="w-9 h-9 rounded-full bg-white/10 hover:bg-gold-400 flex items-center justify-center text-white hover:text-maroon-900 transition-all">
+              <i data-lucide="youtube" class="w-4 h-4"></i>
+            </a>
+            <a href="https://wa.me/919521419559" target="_blank" class="w-9 h-9 rounded-full bg-white/10 hover:bg-green-500 flex items-center justify-center text-white hover:text-white transition-all">
+              <svg class="w-4 h-4" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Quick Links -->
+        <div>
+          <h3 class="font-cinzel text-gold-400 text-sm font-semibold tracking-wider uppercase mb-4">Quick Links</h3>
+          <ul class="space-y-2.5">
+            <li><a href="#home" class="font-inter text-white/60 hover:text-gold-400 text-sm transition-colors">Home</a></li>
+            <li><a href="#categories" class="font-inter text-white/60 hover:text-gold-400 text-sm transition-colors">Collections</a></li>
+            <li><a href="#bestsellers" class="font-inter text-white/60 hover:text-gold-400 text-sm transition-colors">Best Sellers</a></li>
+            <li><a href="#offers" class="font-inter text-white/60 hover:text-gold-400 text-sm transition-colors">Offers</a></li>
+            <li><a href="#about" class="font-inter text-white/60 hover:text-gold-400 text-sm transition-colors">Our Heritage</a></li>
+          </ul>
+        </div>
+
+        <!-- Categories -->
+        <div>
+          <h3 class="font-cinzel text-gold-400 text-sm font-semibold tracking-wider uppercase mb-4">Categories</h3>
+          <ul class="space-y-2.5">
+            <li><a href="#" class="font-inter text-white/60 hover:text-gold-400 text-sm transition-colors">Necklaces</a></li>
+            <li><a href="#" class="font-inter text-white/60 hover:text-gold-400 text-sm transition-colors">Earrings</a></li>
+            <li><a href="#" class="font-inter text-white/60 hover:text-gold-400 text-sm transition-colors">Rings</a></li>
+            <li><a href="#" class="font-inter text-white/60 hover:text-gold-400 text-sm transition-colors">Bangles</a></li>
+            <li><a href="#" class="font-inter text-white/60 hover:text-gold-400 text-sm transition-colors">Bridal Sets</a></li>
+          </ul>
+        </div>
+
+        <!-- Follow Us -->
+        <div>
+          <h3 class="font-cinzel text-gold-400 text-sm font-semibold tracking-wider uppercase mb-4">Follow Us</h3>
+          <div class="flex flex-col gap-3">
+            <a href="https://www.instagram.com/bsoni_sutarla_/" target="_blank" class="flex items-center gap-2.5 font-inter text-white/60 hover:text-gold-400 text-sm transition-colors">
+              <i data-lucide="instagram" class="w-4 h-4 text-gold-400 flex-shrink-0"></i>
+              Instagram
+            </a>
+            <a href="#" class="flex items-center gap-2.5 font-inter text-white/60 hover:text-gold-400 text-sm transition-colors">
+              <i data-lucide="facebook" class="w-4 h-4 text-gold-400 flex-shrink-0"></i>
+              Facebook
+            </a>
+            <a href="#" class="flex items-center gap-2.5 font-inter text-white/60 hover:text-gold-400 text-sm transition-colors">
+              <i data-lucide="youtube" class="w-4 h-4 text-gold-400 flex-shrink-0"></i>
+              YouTube
+            </a>
+          </div>
+        </div>
+
+        <!-- Contact Info -->
+        <div>
+          <h3 class="font-cinzel text-gold-400 text-sm font-semibold tracking-wider uppercase mb-4">Contact Us</h3>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-2.5">
+              <i data-lucide="map-pin" class="w-4 h-4 text-gold-400 mt-0.5 flex-shrink-0"></i>
+              <span class="font-inter text-white/60 text-sm">Johari Bazaar, bikaner, Rajasthan 302003</span>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="phone" class="w-4 h-4 text-gold-400 flex-shrink-0"></i>
+              <a href="tel:+919521419559" class="font-inter text-white/60 hover:text-gold-400 text-sm transition-colors">+91 95214 19559</a>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="mail" class="w-4 h-4 text-gold-400 flex-shrink-0"></i>
+              <a href="mailto:hello@bsonijewellers.com" class="font-inter text-white/60 hover:text-gold-400 text-sm transition-colors">hello@bsonijewellers.com</a>
+            </li>
+            <li class="flex items-center gap-2.5">
+              <i data-lucide="clock" class="w-4 h-4 text-gold-400 flex-shrink-0"></i>
+              <span class="font-inter text-white/60 text-sm">Mon–Sat: 10AM – 8PM</span>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Bottom Bar -->
+      <div class="border-t border-white/10 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4">
+        <p class="font-inter text-white/40 text-xs sm:text-sm text-center sm:text-left">© 2024 Bsoni Jewellers. All rights reserved. Crafted with ❤ in bikaner.</p>
+        <div class="flex items-center gap-6">
+          <a href="#" class="font-inter text-white/40 hover:text-gold-400 text-xs sm:text-sm transition-colors">Privacy</a>
+          <a href="#" class="font-inter text-white/40 hover:text-gold-400 text-xs sm:text-sm transition-colors">Terms</a>
+          <a href="#" class="font-inter text-white/40 hover:text-gold-400 text-xs sm:text-sm transition-colors">Refund</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ============ FLOATING WHATSAPP BUTTON ============ -->
+  <a href="https://wa.me/919521419559?text=Hi!%20I'm%20interested%20in%20your%20jewelry%20collection" target="_blank" class="fixed bottom-6 right-6 z-50 whatsapp-btn w-14 h-14 md:w-16 md:h-16 rounded-full flex items-center justify-center shadow-2xl pulse-gold group">
+    <svg class="w-7 h-7 md:w-8 md:h-8 text-white" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+    <span class="absolute -top-10 right-0 bg-white text-gray-800 text-xs font-inter font-medium px-3 py-1.5 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Chat with us!</span>
+  </a>
+
+  <!-- ============ FLOATING INSTAGRAM BUTTON ============ -->
+  <a href="https://www.instagram.com/bsoni_sutarla_/" target="_blank" class="fixed bottom-20 right-6 z-50 w-14 h-14 md:w-16 md:h-16 rounded-full bg-gradient-to-r from-purple-500 via-pink-500 to-orange-400 text-white flex items-center justify-center shadow-2xl hover:scale-110 transition-all group">
+    <i data-lucide="instagram" class="w-7 h-7 md:w-8 md:h-8"></i>
+    <span class="absolute -top-10 right-0 bg-white text-gray-800 text-xs font-inter font-medium px-3 py-1.5 rounded-lg shadow-lg opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap">Follow us on Instagram!</span>
+  </a>
+
+  <!-- ============ BACK TO TOP ============ -->
+  <button id="backToTop" onclick="window.scrollTo({top:0,behavior:'smooth'})" class="fixed bottom-6 left-6 z-50 w-12 h-12 rounded-full bg-gold-400 text-maroon-900 flex items-center justify-center shadow-lg hover:bg-gold-500 transition-all opacity-0 pointer-events-none">
+    <i data-lucide="chevron-up" class="w-5 h-5"></i>
+  </button>
+
+  <!-- ============ SCRIPTS ============ -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    // Initialize Lucide Icons
+    lucide.createIcons();
+
+    // ===== GOOGLE SHEETS DATA FETCHING WITH PAPAPARSE =====
+    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSE9Mri1lapMuBdw50DdvvHRuG_rCY3bUfBfsNG1i-fx4_6rW2b6KBH4Ri0129zIo-9Tq6HBHu2s6Fp/pub?output=csv'; // Replace with your Google Sheets CSV export URL
+    
+    function fetchAndRenderProducts() {
+      Papa.parse(sheetUrl, {
+        download: true,
+        header: true,
+        transformHeader: h => h.trim().toLowerCase(),
+        skipEmptyLines: true,
+        complete: function(results) {
+          if (results.data && results.data.length > 0) {
+            // Clear hardcoded categories before rendering new ones
+            const categoryTrack = document.getElementById('categoryTrack');
+            if (categoryTrack) categoryTrack.innerHTML = '';
+            
+            renderCategoryCards(results.data);
+            renderProducts(results.data);
+          } else {
+            console.error('No data found in CSV');
+          }
+        },
+        error: function(error) {
+          console.error('Error fetching CSV:', error);
+        }
+      });
+    }
+
+    function normalizeCategory(category) {
+      return String(category || 'necklaces').trim().toLowerCase();
+    }
+
+    function capitalizeWords(text) {
+      return String(text || '').toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+    }
+
+    function renderCategoryCards(products) {
+      const categories = {};
+      products.forEach(product => {
+        if (!product.category) return;
+        const key = normalizeCategory(product.category);
+        if (!categories[key]) {
+          categories[key] = {
+            name: capitalizeWords(product.category),
+            image: product.image1 || 'http://static.photos/nature/640x360/55',
+          };
+        }
+      });
+
+      const categoryTrack = document.getElementById('categoryTrack');
+      if (!categoryTrack) {
+        console.error('Category container #categoryTrack not found');
+        return;
+      }
+      
+      // Clear ALL old content (hardcoded cards)
+      categoryTrack.innerHTML = '';
+
+      // Render new dynamic categories
+      Object.entries(categories).forEach(([key, category], index) => {
+        const card = document.createElement('div');
+        card.className = 'category-card group relative overflow-hidden rounded-2xl sm:rounded-3xl aspect-[3/4] cursor-pointer reveal';
+        card.setAttribute('onclick', `filterProducts('${key}', this)`);
+        card.innerHTML = `
+          <img src="${category.image}" alt="${category.name}" class="category-image w-full h-full object-cover">
+          <div class="category-overlay absolute inset-0 bg-gradient-to-t from-maroon-900/80 via-maroon-800/30 to-transparent flex flex-col justify-end p-4 sm:p-6">
+            <div class="transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+              <span class="text-gold-400 font-inter text-[10px] sm:text-xs tracking-widest uppercase">${String(index + 1).padStart(2, '0')}</span>
+              <h3 class="font-cinzel text-lg sm:text-xl md:text-2xl text-white mt-1">${category.name}</h3>
+              <p class="font-inter text-white/60 text-xs sm:text-sm mt-1 hidden sm:block">Explore ${category.name}</p>
+              <span class="inline-flex items-center gap-1 text-gold-400 font-inter text-xs sm:text-sm mt-2 sm:mt-3 group-hover:gap-2 transition-all">
+                Explore <i data-lucide="arrow-right" class="w-3 h-3"></i>
+              </span>
+            </div>
+          </div>
+        `;
+        categoryTrack.appendChild(card);
+      });
+
+      setTimeout(() => lucide.createIcons(), 100);
+    }
+
+    function renderProducts(products) {
+      const track = document.getElementById('carouselTrack');
+      track.innerHTML = ''; // Clear existing products
+      
+      products.forEach((product, index) => {
+        if (!product.name || !product.price) return; // Skip invalid rows
+        
+        const price = product.price ? '₹' + product.price : 'N/A';
+        const originalPrice = product.originalPrice ? '₹' + product.originalPrice : '';
+        const image = product.image1 || 'http://static.photos/nature/640x360/55';
+        const category = normalizeCategory(product.category);
+        const badge = product.badge || 'NEW';
+        const id = product.id || (index + 1);
+        
+        const productCard = document.createElement('div');
+        productCard.className = 'product-card snap-start flex-shrink-0 w-[260px] sm:w-[280px] md:w-[300px] bg-white/5 backdrop-blur-sm rounded-2xl overflow-hidden border border-white/10 group cursor-pointer';
+        productCard.setAttribute('data-category', category);
+        productCard.setAttribute('onclick', `viewProduct('${id}')`);
+        
+        const badgeClass = badge === 'BESTSELLER' ? 'bg-gold-400 text-maroon-900' : 
+                          badge === 'NEW' ? 'bg-emerald-700 text-white' :
+                          badge === 'LIMITED' ? 'bg-maroon-700 text-white' :
+                          badge === 'TRENDING' ? 'bg-royal-600 text-white' : 'bg-gold-400 text-maroon-900';
+        
+        const originalPriceHTML = originalPrice ? `<span class="font-inter text-white/40 text-sm line-through">${originalPrice}</span>` : '';
+        
+        productCard.innerHTML = `
+          <div class="relative overflow-hidden aspect-[3/4]">
+            <img src="${image}" alt="${product.name}" class="product-image w-full h-full object-cover">
+            <span class="absolute top-3 left-3 ${badgeClass} text-[10px] font-semibold px-2.5 py-1 rounded-full">${badge}</span>
+            <button class="absolute top-3 right-3 w-8 h-8 bg-white/20 backdrop-blur-sm rounded-full flex items-center justify-center text-white hover:bg-gold-400 hover:text-maroon-900 transition-all opacity-0 group-hover:opacity-100">
+              <i data-lucide="heart" class="w-4 h-4"></i>
+            </button>
+          </div>
+          <div class="p-4 sm:p-5">
+            <p class="font-inter text-gold-400 text-[10px] tracking-widest uppercase">${category}</p>
+            <h3 class="font-cinzel text-white text-base sm:text-lg font-semibold mt-1">${product.name}</h3>
+            <div class="flex items-center gap-1 mt-1.5">
+              <i data-lucide="star" class="w-3.5 h-3.5 text-gold-400 fill-gold-400"></i>
+              <i data-lucide="star" class="w-3.5 h-3.5 text-gold-400 fill-gold-400"></i>
+              <i data-lucide="star" class="w-3.5 h-3.5 text-gold-400 fill-gold-400"></i>
+              <i data-lucide="star" class="w-3.5 h-3.5 text-gold-400 fill-gold-400"></i>
+              <i data-lucide="star" class="w-3.5 h-3.5 text-gold-400 fill-gold-400"></i>
+              <span class="font-inter text-white/50 text-xs ml-1">(${product.reviews || '0'})</span>
+            </div>
+            <div class="flex items-center gap-2 mt-3">
+              <span class="font-cinzel text-gold-400 text-lg sm:text-xl font-bold">${price}</span>
+              ${originalPriceHTML}
+            </div>
+          </div>
+        `;
+        
+        track.appendChild(productCard);
+      });
+      
+      // Re-initialize Lucide icons for new elements
+      setTimeout(() => lucide.createIcons(), 100);
+    }
+
+    // Load products on page load
+    window.addEventListener('load', fetchAndRenderProducts);
+
+    // ===== NAVBAR SCROLL EFFECT =====
+    const navbar = document.getElementById('navbar');
+    let lastScroll = 0;
+    window.addEventListener('scroll', () => {
+      const currentScroll = window.pageYOffset;
+      if (currentScroll > 80) {
+        navbar.style.background = 'linear-gradient(135deg, rgba(107,15,26,0.97), rgba(26,35,126,0.95))';
+        navbar.style.backdropFilter = 'blur(20px)';
+        navbar.style.boxShadow = '0 4px 30px rgba(0,0,0,0.3)';
+      } else {
+        navbar.style.background = 'transparent';
+        navbar.style.backdropFilter = 'none';
+        navbar.style.boxShadow = 'none';
+      }
+      lastScroll = currentScroll;
+    });
+
+    // ===== MOBILE MENU =====
+    function toggleMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('open');
+      document.body.style.overflow = menu.classList.contains('open') ? 'hidden' : '';
+      // Re-render icons after toggle
+      setTimeout(() => lucide.createIcons(), 50);
+    }
+
+    // ===== CAROUSEL =====
+    let carouselPosition = 0;
+    const track = document.getElementById('carouselTrack');
+    function moveCarousel(direction) {
+      const cardWidth = track.children[0]?.offsetWidth + 24; // width + gap
+      if (!cardWidth) return;
+      const maxScroll = track.scrollWidth - track.parentElement.offsetWidth;
+      carouselPosition += direction * cardWidth;
+      carouselPosition = Math.max(0, Math.min(carouselPosition, maxScroll));
+      track.style.transform = `translateX(-${carouselPosition}px)`;
+    }
+
+    // Touch/swipe support for carousel
+    let touchStartX = 0;
+    let touchEndX = 0;
+    const carouselContainer = track.parentElement;
+    carouselContainer.addEventListener('touchstart', e => {
+      touchStartX = e.changedTouches[0].screenX;
+    }, { passive: true });
+    carouselContainer.addEventListener('touchend', e => {
+      touchEndX = e.changedTouches[0].screenX;
+      const diff = touchStartX - touchEndX;
+      if (Math.abs(diff) > 50) {
+        moveCarousel(diff > 0 ? 1 : -1);
+      }
+    }, { passive: true });
+
+    // ===== PRODUCT FILTERING =====
+    let currentFilter = 'all';
+    function filterProducts(category, clickedElement) {
+      const products = document.querySelectorAll('.product-card');
+      const categories = document.querySelectorAll('.category-card');
+      
+      // Update current filter
+      currentFilter = category;
+      
+      // Remove active class from all categories
+      categories.forEach(cat => cat.classList.remove('active'));
+      
+      // Add active class to clicked category
+      const activeElement = clickedElement || window.event?.currentTarget;
+      if (category !== 'all' && activeElement) {
+        activeElement.classList.add('active');
+      }
+      
+      // Filter products
+      products.forEach(product => {
+        if (category === 'all' || product.dataset.category === category) {
+          product.style.display = 'block';
+        } else {
+          product.style.display = 'none';
+        }
+      });
+      
+      // Reset carousel position
+      carouselPosition = 0;
+      track.style.transform = 'translateX(0)';
+    }
+
+    // Add Show All button functionality
+    function showAllProducts() {
+      filterProducts('all');
+    }
+
+    // View Product Detail
+    function viewProduct(id) {
+      window.location.href = 'product-detail.html?id=' + id;
+    }
+
+    // ===== COUNTDOWN TIMER =====
+    function updateCountdown() {
+      const now = new Date();
+      const target = new Date(now.getTime() + 7 * 24 * 60 * 60 * 1000); // 7 days from now, always resetting
+      // Actually, let's set a fixed future date for consistency
+      const weddingDate = new Date('2025-03-15T00:00:00');
+      const diff = weddingDate - now;
+      
+      if (diff <= 0) {
+        document.getElementById('days').textContent = '00';
+        document.getElementById('hours').textContent = '00';
+        document.getElementById('minutes').textContent = '00';
+        document.getElementById('seconds').textContent = '00';
+        return;
+      }
+      
+      const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+      const hours = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+      const minutes = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+      const seconds = Math.floor((diff % (1000 * 60)) / 1000);
+      
+      document.getElementById('days').textContent = String(days).padStart(2, '0');
+      document.getElementById('hours').textContent = String(hours).padStart(2, '0');
+      document.getElementById('minutes').textContent = String(minutes).padStart(2, '0');
+      document.getElementById('seconds').textContent = String(seconds).padStart(2, '0');
+    }
+    updateCountdown();
+    setInterval(updateCountdown, 1000);
+
+    // ===== SCROLL REVEAL =====
+    function revealOnScroll() {
+      const reveals = document.querySelectorAll('.reveal');
+      reveals.forEach(el => {
+        const windowHeight = window.innerHeight;
+        const revealTop = el.getBoundingClientRect().top;
+        const revealPoint = 120;
+        if (revealTop < windowHeight - revealPoint) {
+          el.classList.add('active');
+        }
+      });
+    }
+    window.addEventListener('scroll', revealOnScroll);
+    window.addEventListener('load', revealOnScroll);
+
+    // ===== BACK TO TOP =====
+    const backToTop = document.getElementById('backToTop');
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 500) {
+        backToTop.style.opacity = '1';
+        backToTop.style.pointerEvents = 'auto';
+      } else {
+        backToTop.style.opacity = '0';
+        backToTop.style.pointerEvents = 'none';
+      }
+    });
+
+    // ===== NEWSLETTER =====
+    function handleNewsletter(e) {
+      e.preventDefault();
+      const msg = document.getElementById('newsletterMsg');
+      msg.classList.remove('hidden');
+      e.target.reset();
+      setTimeout(() => {
+        msg.classList.add('hidden');
+      }, 4000);
+    }
+
+    // ===== SMOOTH SCROLL FOR ANCHOR LINKS =====
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function(e) {
+        e.preventDefault();
+        const target = document.querySelector(this.getAttribute('href'));
+        if (target) {
+          target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      });
+    });
+
+    // ===== RE-INIT ICONS ON DYNAMIC CHANGES =====
+    // Ensure all Lucide icons render
+    setTimeout(() => lucide.createIcons(), 200);
+  </script>
+</body>
+</html>

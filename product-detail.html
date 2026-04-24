@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Product Detail — Bsoni Jewellers</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.4.1/papaparse.min.js"></script>
+  <script>
+    // ========= YAHAN APNA CSV LINK DALO =========
+    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSE9Mri1lapMuBdw50DdvvHRuG_rCY3bUfBfsNG1i-fx4_6rW2b6KBH4Ri0129zIo-9Tq6HBHu2s6Fp/pub?output=csv'; 
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+
+    Papa.parse(sheetUrl, {
+      download: true,
+      header: true,
+      transformHeader: function(h) {
+        return h.trim(); // Ye sheet ki headings ke extra spaces automatically hata dega!
+      },
+      complete: function(results) {
+        const products = results.data;
+        
+        // Find product matching the URL ID
+        const product = products.find(p => p.id && String(p.id).trim() === String(productId).trim());
+
+        if(product) {
+          let originalPriceHTML = product.originalPrice ? `<span class="font-inter text-gray-400 text-xl line-through">${product.originalPrice}</span>` : '';
+          
+          let imagesHTML = '';
+          if(product.image1) imagesHTML += `<div class="gallery-thumb active aspect-square rounded-lg overflow-hidden bg-gray-100" onclick="changeImage('${product.image1}', this)"><img src="${product.image1}" class="w-full h-full object-cover"></div>`;
+          if(product.image2) imagesHTML += `<div class="gallery-thumb aspect-square rounded-lg overflow-hidden bg-gray-100" onclick="changeImage('${product.image2}', this)"><img src="${product.image2}" class="w-full h-full object-cover"></div>`;
+          if(product.image3) imagesHTML += `<div class="gallery-thumb aspect-square rounded-lg overflow-hidden bg-gray-100" onclick="changeImage('${product.image3}', this)"><img src="${product.image3}" class="w-full h-full object-cover"></div>`;
+          if(product.image4) imagesHTML += `<div class="gallery-thumb aspect-square rounded-lg overflow-hidden bg-gray-100" onclick="changeImage('${product.image4}', this)"><img src="${product.image4}" class="w-full h-full object-cover"></div>`;
+
+          const whatsappMsg = encodeURIComponent(`Hi! I'm interested in the ${product.name}`);
+
+          document.getElementById('productContainer').innerHTML = `
+            <div class="space-y-4">
+              <div class="aspect-square rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 shadow-sm">
+                <img id="mainImage" src="${product.image1}" alt="${product.name}" class="w-full h-full object-cover">
+              </div>
+              <div class="grid grid-cols-4 gap-4">
+                ${imagesHTML}
+              </div>
+            </div>
+
+            <div class="space-y-6">
+              <div>
+                <p class="font-inter text-gold-600 text-sm tracking-widest uppercase">${product.category}</p>
+                <h1 class="font-cinzel text-3xl md:text-4xl font-bold text-maroon-800 mt-2">${product.name}</h1>
+              </div>
+
+              <div class="flex items-center gap-4">
+                <span class="font-cinzel text-3xl font-bold text-green-700">${product.price}</span>
+                ${originalPriceHTML}
+              </div>
+
+              <div class="space-y-4">
+                <h3 class="font-cinzel text-xl font-semibold text-maroon-800">Description</h3>
+                <p class="font-inter text-gray-600 leading-relaxed">${product.description}</p>
+              </div>
+
+              <div class="space-y-4">
+                <h3 class="font-cinzel text-xl font-semibold text-maroon-800">Specifications</h3>
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <span class="font-inter text-sm text-gray-500">Size/Length</span>
+                    <p class="font-cinzel font-semibold text-maroon-800">${product.length || 'N/A'}</p>
+                  </div>
+                  <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <span class="font-inter text-sm text-gray-500">Weight</span>
+                    <p class="font-cinzel font-semibold text-maroon-800">${product.weight || 'N/A'}</p>
+                  </div>
+                  <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <span class="font-inter text-sm text-gray-500">Material</span>
+                    <p class="font-cinzel font-semibold text-maroon-800">${product.material || 'N/A'}</p>
+                  </div>
+                  <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <span class="font-inter text-sm text-gray-500">Purity</span>
+                    <p class="font-cinzel font-semibold text-maroon-800">${product.purity || 'N/A'}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-6">
+                <a href="https://wa.me/919521419559?text=${whatsappMsg}" target="_blank" class="bg-green-600 hover:bg-green-500 text-white w-full py-4 rounded-full text-lg font-semibold flex items-center justify-center gap-3 transition-all shadow-lg hover:shadow-xl">
+                  <i data-lucide="message-circle" class="w-5 h-5"></i> Buy on WhatsApp
+                </a>
+              </div>
+            </div>
+          `;
+          lucide.createIcons(); 
+        } else {
+           document.getElementById('productContainer').innerHTML = `<h2 class="text-2xl text-red-500 col-span-2 text-center mt-10">Product not found! 😢</h2>`;
+        }
+      }
+    });
+
+    function changeImage(src, element) {
+      document.getElementById('mainImage').src = src;
+      document.querySelectorAll('.gallery-thumb').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+    }
+  </script>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600;700&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; background-color: #FFFDF7; }
+    .gallery-thumb { cursor: pointer; transition: all 0.3s ease; border: 2px solid transparent; }
+    .gallery-thumb:hover { transform: scale(1.05); }
+    .gallery-thumb.active { border-color: #D4AF37; }
+  </style>
+</head>
+<body>
+
+  <nav class="fixed top-0 left-0 w-full z-50 bg-maroon-900/95 backdrop-blur-lg">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between h-16 md:h-20">
+        <a href="demo.html" class="flex items-center gap-2 group">
+          <div class="w-9 h-9 rounded-full border-2 border-gold-400 flex items-center justify-center">
+            <span class="font-cinzel text-gold-400 font-bold">B</span>
+          </div>
+          <div>
+            <span class="font-cinzel text-gold-400 font-bold tracking-wider">Bsoni</span>
+            <span class="block text-[9px] tracking-[0.3em] text-yellow-300 uppercase -mt-1">Jewellers</span>
+          </div>
+        </a>
+        <a href="demo.html" class="text-white/90 hover:text-gold-400 text-sm flex items-center gap-2">
+           &larr; Back to Home
+        </a>
+      </div>
+    </div>
+  </nav>
+
+  <section class="pt-24 pb-16">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid lg:grid-cols-2 gap-8 lg:gap-12" id="productContainer">
+        <h2 class="text-2xl font-cinzel text-center col-span-2 text-maroon-800 mt-10">Loading Details... ✨</h2>
+      </div>
+    </div>
+  </section>
+
+  <script src="https://unpkg.com/lucide@latest"></script>
+  <script>
+    lucide.createIcons();
+
+    // ========= YAHAN APNA CSV LINK DALO =========
+    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSE9Mri1lapMuBdw50DdvvHRuG_rCY3bUfBfsNG1i-fx4_6rW2b6KBH4Ri0129zIo-9Tq6HBHu2s6Fp/pubhtml'; 
+
+    const urlParams = new URLSearchParams(window.location.search);
+    const productId = urlParams.get('id');
+
+    Papa.parse(sheetUrl, {
+      download: true,
+      header: true,
+      complete: function(results) {
+        const products = results.data;
+        // Find product matching the URL ID using String(p.id) just in case
+        const product = products.find(p => String(p.id).trim() === String(productId).trim());
+
+        if(product) {
+          let originalPriceHTML = product.originalPrice ? `<span class="font-inter text-gray-400 text-xl line-through">${product.originalPrice}</span>` : '';
+          
+          let imagesHTML = '';
+          if(product.image1) imagesHTML += `<div class="gallery-thumb active aspect-square rounded-lg overflow-hidden bg-gray-100" onclick="changeImage('${product.image1}', this)"><img src="${product.image1}" class="w-full h-full object-cover"></div>`;
+          if(product.image2) imagesHTML += `<div class="gallery-thumb aspect-square rounded-lg overflow-hidden bg-gray-100" onclick="changeImage('${product.image2}', this)"><img src="${product.image2}" class="w-full h-full object-cover"></div>`;
+          if(product.image3) imagesHTML += `<div class="gallery-thumb aspect-square rounded-lg overflow-hidden bg-gray-100" onclick="changeImage('${product.image3}', this)"><img src="${product.image3}" class="w-full h-full object-cover"></div>`;
+          if(product.image4) imagesHTML += `<div class="gallery-thumb aspect-square rounded-lg overflow-hidden bg-gray-100" onclick="changeImage('${product.image4}', this)"><img src="${product.image4}" class="w-full h-full object-cover"></div>`;
+
+          const whatsappMsg = encodeURIComponent(`Hi! I'm interested in the ${product.name}`);
+
+          document.getElementById('productContainer').innerHTML = `
+            <div class="space-y-4">
+              <div class="aspect-square rounded-2xl overflow-hidden bg-gray-100 border border-gray-200 shadow-sm">
+                <img id="mainImage" src="${product.image1}" alt="${product.name}" class="w-full h-full object-cover">
+              </div>
+              <div class="grid grid-cols-4 gap-4">
+                ${imagesHTML}
+              </div>
+            </div>
+
+            <div class="space-y-6">
+              <div>
+                <p class="font-inter text-gold-600 text-sm tracking-widest uppercase">${product.category}</p>
+                <h1 class="font-cinzel text-3xl md:text-4xl font-bold text-maroon-800 mt-2">${product.name}</h1>
+              </div>
+
+              <div class="flex items-center gap-4">
+                <span class="font-cinzel text-3xl font-bold text-green-700">${product.price}</span>
+                ${originalPriceHTML}
+              </div>
+
+              <div class="space-y-4">
+                <h3 class="font-cinzel text-xl font-semibold text-maroon-800">Description</h3>
+                <p class="font-inter text-gray-600 leading-relaxed">${product.description}</p>
+              </div>
+
+              <div class="space-y-4">
+                <h3 class="font-cinzel text-xl font-semibold text-maroon-800">Specifications</h3>
+                <div class="grid grid-cols-2 gap-4">
+                  <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <span class="font-inter text-sm text-gray-500">Size/Length</span>
+                    <p class="font-cinzel font-semibold text-maroon-800">${product.length || 'N/A'}</p>
+                  </div>
+                  <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <span class="font-inter text-sm text-gray-500">Weight</span>
+                    <p class="font-cinzel font-semibold text-maroon-800">${product.weight || 'N/A'}</p>
+                  </div>
+                  <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <span class="font-inter text-sm text-gray-500">Material</span>
+                    <p class="font-cinzel font-semibold text-maroon-800">${product.material || 'N/A'}</p>
+                  </div>
+                  <div class="bg-white p-4 rounded-lg border border-gray-200">
+                    <span class="font-inter text-sm text-gray-500">Purity</span>
+                    <p class="font-cinzel font-semibold text-maroon-800">${product.purity || 'N/A'}</p>
+                  </div>
+                </div>
+              </div>
+
+              <div class="pt-6">
+                <a href="https://wa.me/919521419559?text=${whatsappMsg}" target="_blank" class="bg-green-600 hover:bg-green-500 text-white w-full py-4 rounded-full text-lg font-semibold flex items-center justify-center gap-3 transition-all shadow-lg hover:shadow-xl">
+                  <i data-lucide="message-circle" class="w-5 h-5"></i> Buy on WhatsApp
+                </a>
+              </div>
+            </div>
+          `;
+          lucide.createIcons();
+        } else {
+           document.getElementById('productContainer').innerHTML = `<h2 class="text-2xl text-red-500 col-span-2 text-center mt-10">Product not found! 😢</h2>`;
+        }
+      }
+    });
+
+    function changeImage(src, element) {
+      document.getElementById('mainImage').src = src;
+      document.querySelectorAll('.gallery-thumb').forEach(el => el.classList.remove('active'));
+      element.classList.add('active');
+    }
+  </script>
+</body>
+</html>
