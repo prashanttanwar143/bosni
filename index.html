@@ -932,6 +932,26 @@
     // Initialize Lucide Icons
     lucide.createIcons();
 
+    function sanitizePhoneNumber(phone) {
+      return String(phone || '').replace(/\s+/g, '').replace(/^\+/, '');
+    }
+
+    function sanitizeWhatsAppLinks() {
+      document.querySelectorAll('a[href*="wa.me"]').forEach(anchor => {
+        try {
+          const url = new URL(anchor.href);
+          const rawPhone = url.pathname.replace(/\//g, '');
+          const sanitizedNumber = sanitizePhoneNumber(rawPhone);
+          url.pathname = `/${sanitizedNumber}`;
+          anchor.href = url.toString();
+        } catch (error) {
+          console.warn('Failed to sanitize WhatsApp URL:', anchor.href, error);
+        }
+      });
+    }
+
+    sanitizeWhatsAppLinks();
+
     // ===== GOOGLE SHEETS DATA FETCHING WITH PAPAPARSE =====
     const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vSE9Mri1lapMuBdw50DdvvHRuG_rCY3bUfBfsNG1i-fx4_6rW2b6KBH4Ri0129zIo-9Tq6HBHu2s6Fp/pub?output=csv'; // Replace with your Google Sheets CSV export URL
     
